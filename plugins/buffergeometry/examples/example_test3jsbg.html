@@ -1,0 +1,70 @@
+<!doctype html><title>Minimal tQuery Page</title>
+<script src="../../../build/tquery-bundle.js"></script>
+
+<script src="../tquery.createbuffergeometry.js"></script>
+<script src="../tquery.createbuffergeometrydisjoint.js"></script>
+
+<script src="../tquery.geometryto3jsbg.js"></script>
+<script src="../tquery.loader3jsbg.js"></script>
+<script src="../tquery.hexdump.js"></script>
+
+<body><div id='info'>
+	<a download='sample.3jsbg' href=''>Download .bin format</a>
+</div><script>
+	var world	= tQuery.createWorld().boilerplate().pageTitle('#info').start();
+
+	console.time('generate three.js object')
+	// build the geometry
+	//var tGeometry	= new THREE.CircleGeometry(0.5);
+	//var tGeometry	= new THREE.PlaneGeometry(1,1);
+	//var tGeometry	= new THREE.PlaneGeometry(1,1, 256, 256);
+	var tGeometry	= new THREE.CubeGeometry(1,1,1, 150, 150);
+	//var tGeometry	= new THREE.TorusKnotGeometry(1-0.15, 0.15)
+
+	// tGeometry.computeBoundingBox();
+	// tGeometry.computeFaceNormals();
+	// tGeometry.computeCentroids();
+	// tGeometry.computeVertexNormals();
+	// tGeometry.computeMorphNormals();
+	// //geometry.computeTangents();
+	// tGeometry.computeBoundingSphere();		
+
+	// build the mesh
+	var url		= "../../assets/images/ash_uvgrid01.jpg";
+	var tMaterial	= new THREE.MeshBasicMaterial({
+		map	: THREE.ImageUtils.loadTexture( url )
+	});
+	//var tMaterial	= new THREE.MeshNormalMaterial();
+	var mesh	= tQuery(tGeometry, tMaterial).translateX(-1).addTo(world);
+	console.timeEnd('generate three.js object')
+
+	console.log('original geometry vertices', tGeometry.vertices.length)
+	console.log('original geometry vertices', tGeometry.faces.length)
+
+
+	// // convert tGeometry to 3jsbg
+	// //var tBgGeometry	= tQuery.createBufferGeometry(tGeometry);
+	console.time('Create BufferGeometry')
+	var tBgGeometry	= tQuery.createBufferGeometryDisjoint(tGeometry);
+	console.timeEnd('Create BufferGeometry')
+
+if(true){
+	console.time('Generating 3jsbg from THREE.BufferGeometry')
+	var dataView	= tQuery.geometryTo3jsbg(tBgGeometry);
+	console.timeEnd('Generating 3jsbg from THREE.BufferGeometry')
+//	tQuery.hexDump(dataView)
+
+
+	var blob	= new Blob([dataView], {
+		type	: 'application/octet-stream'
+	});
+	var objectURL	= webkitURL.createObjectURL( blob );
+	document.querySelector('#info a').href	= objectURL;
+
+
+	// convert 3jsbg to tGeometry
+	var tGeometry	= tQuery.convert3jsbgToGeometry(dataView.buffer)
+	//var tMaterial	= new THREE.MeshNormalMaterial();
+	tQuery(tGeometry, tMaterial).addTo(world).translateX(1);
+}
+</script></body>
