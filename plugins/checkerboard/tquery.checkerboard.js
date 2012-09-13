@@ -4,14 +4,14 @@
 tQuery.register('createCheckerboard', function(opts){
 	// handle parameters
 	opts	= tQuery.extend(opts, {
-		width		: 1,		
+		width		: 1,
 		height		: 1,
 		segmentsW	: 8,
 		segmentsH	: 8,
 		materialEven	: new THREE.MeshBasicMaterial({ color: 0xcccccc }),
 		materialOdd	: new THREE.MeshBasicMaterial({ color: 0x444444 })
 	});
-	// create the geometry	
+	// create the geometry
 	var geometry		= new THREE.PlaneGeometry( opts.width, opts.height, opts.segmentsW, opts.segmentsH );
 	// set materials per faces
 	geometry.materials	= [opts.materialEven, opts.materialOdd];
