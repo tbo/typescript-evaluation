@@ -5,7 +5,7 @@ window.onload = function () {
 //    world.addEffectComposer().sepia().vignette().finish();
     world.camera().position.set( 8, 8, 8 );
     world.camera().lookAt( world.scene().position );
-    var object = tQuery.createCube().addTo(world);
+    var object = tQuery.createShip().addTo(world);
     // add the fog
     world.addFogExp2({density: 0.02});
 

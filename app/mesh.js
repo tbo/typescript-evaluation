@@ -1,4 +1,5 @@
-tQuery.register('createSimpleNavMesh', function(opts){
+var navMesh = null;
+tQuery.register('createSimpleNavMesh', function(opts) {
     var objectHolder = new THREE.Object3D();
     var lineMat = new THREE.LineBasicMaterial( { color: 0xFFFFFF, opacity: 0.3, linewidth: 1 } );
     for(var i = -10; i <= 10; i++) {
@@ -13,9 +14,11 @@ tQuery.register('createSimpleNavMesh', function(opts){
         var line = new THREE.Line(geom, lineMat);
         objectHolder.add(line);
     }
+    navMesh = objectHolder;
     return tQuery(objectHolder);
 });
-tQuery.register('createDottedNavMesh', function(opts){
+
+tQuery.register('createDottedNavMesh', function(opts) {
     var objectHolder = new THREE.Object3D();
     var lineMat = new THREE.LineBasicMaterial( { color: 0x777777, opacity: 1, linewidth: 1 } );
     for(var x = -8; x <= 8; x++) {
@@ -32,5 +35,10 @@ tQuery.register('createDottedNavMesh', function(opts){
             objectHolder.add(line);
         }
     }
+    navMesh = objectHolder;
     return tQuery(objectHolder);
+});
+
+tQuery.register('moveNavMesh', function(opts) {
+//    navMesh.translateX(0.1);
 });
