@@ -67,13 +67,13 @@ tQuery.register('hookKeyboardLoopCb', function(delta, now){
     var opts	= data.opts;
     var keyboard	= tQuery.keyboard();
 
-    if(keyboard.pressed(opts.keyStateRight)) {
+    if(keyboard.pressed("d")) {
         var r = -1*delta
         ship.rotateZ(r);
         rotation += r;
     }
 
-    if (keyboard.pressed(opts.keyStateLeft)) {
+    if (keyboard.pressed("a")) {
         var r = 1*delta
         ship.rotateZ(r);
         rotation += r;
@@ -86,12 +86,12 @@ tQuery.register('hookKeyboardLoopCb', function(delta, now){
 //        rotation =  Math.PI - (rotation%Math.PI);
 //    }
 
-    if(keyboard.pressed(opts.keyStateUp)) {
+    if(keyboard.pressed("w")) {
         speed += acceleration * delta;
         if(speed > 100) {
             speed = 100;
         }
-    } else if(keyboard.pressed(opts.keyStateDown) && speed > 0) {
+    } else if(keyboard.pressed("s") && speed > 0) {
         speed -= acceleration * delta;
         if(speed < 0) {
             speed = 0;
