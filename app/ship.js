@@ -3,26 +3,21 @@ var speed = 0;
 var acceleration = 50;
 var x = 0;
 var y = 0;
-tQuery.register('createShip', function(material){
-    ship = tQuery.createHeartShape().extrude()
-        .computeAll().center()
-        .normalize().rotateY(Math.PI/2).rotateZ(Math.PI/2)
-        .toMesh(material);
-    return ship;
-});
-
-tQuery.register('createShipShape', function(){
-    var x	= 0, y	= 0;
-    // TODO put it upsidedown and normalize it
-    var shape	= tQuery.createShape()
-        .moveTo( x + 25, y + 25 )
-        .bezierCurveTo( x + 25, y + 25, x + 20, y, x, y )
-        .bezierCurveTo( x - 30, y, x - 30, y + 35,x - 30,y + 35 )
-        .bezierCurveTo( x - 30, y + 55, x - 10, y + 77, x + 25, y + 95 )
-        .bezierCurveTo( x + 60, y + 77, x + 80, y + 55, x + 80, y + 35 )
-        .bezierCurveTo( x + 80, y + 35, x + 80, y, x + 50, y )
-        .bezierCurveTo( x + 35, y, x + 25, y + 25, x + 25, y + 25 )
-    return shape;
+var ship;
+tQuery.register('createShip', function(world){
+    //ship = tQuery.createHeartShape().extrude()
+    //    .computeAll().center()
+    //    .normalize().rotateY(Math.PI/2).rotateZ(Math.PI/2)
+    //    .toMesh(material);
+    var loader = new THREE.JSONLoader();
+    loader.createModel(simpleShipModel,function (model) {
+        var material = new THREE.MeshNormalMaterial();
+	ship = new THREE.Object3D();
+        var mesh = new THREE.Mesh( model, material );
+        mesh.scale.set(0.3, 0.3, 0.3);
+	ship.add(mesh);
+        tQuery(ship).addTo(world);
+    });
 });
 
 tQuery.register('hookKeyboard', function(opts){
@@ -68,6 +63,7 @@ tQuery.register('hookKeyboardLoopCb', function(delta, now){
     var keyboard	= tQuery.keyboard();
 
     if(keyboard.pressed("d")) {
+	console.log(ship);
         var r = -1*delta
         ship.rotateZ(r);
         rotation += r;
