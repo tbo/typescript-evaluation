@@ -3,7 +3,7 @@ var totalX = 0;
 var totalY = 0;
 tQuery.register('createSimpleNavMesh', function(opts) {
     var objectHolder = new THREE.Object3D();
-    var lineMat = new THREE.LineBasicMaterial( { color: 0xFFFFFF, opacity: 0.3, linewidth: 1 } );
+    var lineMat = new THREE.LineBasicMaterial( { color: 0x777777, opacity: 1, linewidth: 1 } );
     for(var i = -10; i <= 10; i++) {
         var geom = new THREE.Geometry();
         geom.vertices.push( new THREE.Vertex( new THREE.Vector3(-40, 4*i, 0) ) );

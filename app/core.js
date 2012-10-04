@@ -3,7 +3,7 @@ window.onload = function () {
     world.renderer().setClearColorHex( 0x000000, world.renderer().getClearAlpha());
     world.camera().position.set( 8, 8, 8 );
     world.camera().lookAt( world.scene().position );
-    tQuery.createShip(world);
+    tQuery.createShip().addTo(world);
     // add the fog
 //    world.addFogExp2({density: 0.02});
 
