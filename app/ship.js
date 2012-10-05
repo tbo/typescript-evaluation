@@ -4,11 +4,11 @@ var acceleration = 50;
 var x = 0;
 var y = 0;
 var ship;
-tQuery.register('createShip', function(world){
+tQuery.register('createShip', function(){
+    /*
     var material = new THREE.MeshNormalMaterial({opacity: 1});
     ship = tQuery.createShipShape();
     return tQuery(ship);
-    /*
     var loader = new THREE.JSONLoader();
     loader.createModel(simpleShipModel,function (model) {
         var material = new THREE.MeshNormalMaterial();
@@ -19,10 +19,20 @@ tQuery.register('createShip', function(world){
         tQuery(ship).addTo(world);
     });
     */
+    var loader = new THREE.JSONLoader();
+    loader.createModel(simpleShipModel,function (model) {
+        var material = new THREE.MeshNormalMaterial();
+        var object = new THREE.Object3D();
+        var mesh = new THREE.Mesh( model, material );
+        mesh.scale.set(0.3, 0.3, 0.3);
+        object.add(mesh);
+        ship = new THREE.Object3D();
+        ship.add(object);
+        tQuery(ship).addTo(world);
+    });
 });
 
 tQuery.register('createShipShape', function(){
-
     // TODO put it upsidedown and normalize it
     var objectHolder = new THREE.Object3D();
     var geom = new THREE.Geometry();
@@ -31,21 +41,9 @@ tQuery.register('createShipShape', function(){
     var object = new THREE.Mesh(new THREE.CylinderGeometry(2,1,1), new THREE.MeshNormalMaterial( { color: 0x777777, opacity: 1, linewidth: 1 } ));
     objectHolder.add(object);
     return objectHolder;
-//    var x	= 0, y	= 0;
-//    var shape	= tQuery.createShape()
-//        .moveTo( x, y )
-//        .lineTo(40,80)
-//        .lineTo(120,90)
-//        .lineTo(100,60,100)
-//        .lineTo(0,0)
-//        .bezierCurveTo( x + 30, y, x + 60, y, x+120, y+60 )
-//        .bezierCurveTo( x - 30, y, x - 30, y + 35,x - 30,y + 35 )
-//        .bezierCurveTo( x - 30, y + 55, x - 10, y + 77, x + 25, y + 95 )
-//        .bezierCurveTo( x + 60, y + 77, x + 80, y + 55, x + 80, y + 35 )
-//        .bezierCurveTo( x + 80, y + 35, x + 80, y, x + 50, y )
-//        .bezierCurveTo( x + 35, y, x + 25, y + 25, x + 25, y + 25 )
-//    return shape;
 });
+
+
 
 tQuery.register('hookKeyboard', function(opts){
     // handle parameters
