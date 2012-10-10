@@ -1,4 +1,8 @@
 var world = null;
+accelerate = false;
+turnLeft = false;
+decelerate = false;
+turnRight = false;
 window.onload = function () {
     var stats, scene, renderer, composer;
     var camera, cameraControl;
@@ -30,7 +34,7 @@ window.onload = function () {
 
         // create a scene
         scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2( 0x000000, 0.00000025 );
+//        scene.fog = new THREE.FogExp2( 0x000000, 1 );
         // put a camera in the scene
         var cameraH	= 25;
         var cameraW	= cameraH / window.innerHeight * window.innerWidth;
@@ -70,10 +74,10 @@ window.onload = function () {
             .normalize().multiplyScalar(1.2);
         scene.add( light );
 
-        var geometry	= new THREE.SphereGeometry( 1, 16, 8 );
-        var material	= new THREE.MeshNormalMaterial();
-        var mesh	= new THREE.Mesh( geometry, material );
-        scene.add( mesh );
+//        var geometry	= new THREE.SphereGeometry( 1, 16, 8 );
+//        var material	= new THREE.MeshNormalMaterial();
+//        var mesh	= new THREE.Mesh( geometry, material );
+//        scene.add( mesh );
 
         var objectHolder = new THREE.Object3D();
         var lineMat = new THREE.LineBasicMaterial( { color: 0x777777, opacity: 0.5, linewidth: 1 } );
@@ -91,6 +95,19 @@ window.onload = function () {
         }
         navMesh = objectHolder;
         scene.add(navMesh);
+        var loader = new THREE.JSONLoader();
+        loader.createModel(simpleShipModel,function (model) {
+            var material = new THREE.MeshNormalMaterial();
+            var object = new THREE.Object3D();
+            var mesh = new THREE.Mesh( model, material );
+            mesh.scale.set(0.3, 0.3, 0.3);
+            object.add(mesh);
+            ship = new THREE.Object3D();
+            ship.add(object);
+            scene.add(ship);
+        });
+        document.addEventListener( 'keydown', onKey(true), false );
+        document.addEventListener( 'keyup', onKey(false), false );
     }
 
     // animation loop
@@ -149,5 +166,24 @@ window.onload = function () {
     tQuery.createSimpleNavMesh().addTo(world);
     tQuery.hookKeyboard();
     */
+}
+
+function onKey(v) {
+    return function ( event ) {
+        //event.preventDefault();
+        switch ( event.keyCode ) {
+            case 38: /*up*/
+            case 87: /*W*/ accelerate = v; break;
+
+            case 37: /*left*/
+            case 65: /*A*/ turnLeft = v; break;
+
+            case 40: /*down*/
+            case 83: /*S*/ decelerate = v; break;
+
+            case 39: /*right*/
+            case 68: /*D*/ turnRight = v; break;
+        }
+    };
 }
 
