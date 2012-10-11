@@ -118,6 +118,44 @@ window.onload = function () {
         // - see details at http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
         requestAnimationFrame( animate );
 
+
+//        if(keyboard.pressed("d")) {
+//            var r = 1*delta
+//            ship.rotation.z -= r;
+//        }
+//
+//        if (keyboard.pressed("a")) {
+//            var r = 1*delta
+//            ship.rotation.z += r;
+//        }
+//        rotation = ship.rotation.z;
+//        ship.updateMatrix();
+////    if(rotation > Math.PI) {
+////        rotation %= Math.PI;
+////    }
+////    if(rotation < 0) {
+////        rotation =  Math.PI - (rotation%Math.PI);
+////    }
+//
+//        if(keyboard.pressed("w")) {
+//            speed += acceleration * delta;
+//            if(speed > 100) {
+//                speed = 100;
+//            }
+//        } else if(keyboard.pressed("s") && speed > 0) {
+//            speed -= acceleration * delta;
+//            if(speed < 0) {
+//                speed = 0;
+//            }
+//        }
+//
+//        if(speed > 0) {
+//            var yChange = speed*delta*-0.01*Math.cos(rotation);
+//            var xChange = speed*delta*0.01*Math.sin(rotation);
+//            tQuery.moveNavMesh(xChange,yChange);
+//            x += xChange;
+//            y += yChange;
+//        }
         // do the render
         render();
 
