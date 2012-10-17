@@ -1,12 +1,23 @@
+"use strict"
 var world = null;
-accelerate = false;
-turnLeft = false;
-decelerate = false;
-turnRight = false;
+var accelerate = false;
+var turnLeft = false;
+var decelerate = false;
+var turnRight = false;
+var ship = null;
+var speed = 0;
+var clock = new THREE.Clock();
+var totalX = 0;
+var totalY = 0;
+var navMesh = null;
+var acceleration = 50;
+var x = 0;
+var y = 0;
+var rotation = 0;
+
 window.onload = function () {
     var stats, scene, renderer, composer;
-    var camera, cameraControl;
-    var navMesh;
+    var camera, cameraControls;
 
     if( !init() )	animate();
 
@@ -43,7 +54,7 @@ window.onload = function () {
         scene.add(camera);
 
         // create a camera contol
-        cameraControls	= new THREEx.DragPanControls(camera)
+        cameraControls = new THREEx.DragPanControls(camera)
 
         // transparently support window resize
         THREEx.WindowResize.bind(renderer, camera);
@@ -74,13 +85,8 @@ window.onload = function () {
             .normalize().multiplyScalar(1.2);
         scene.add( light );
 
-//        var geometry	= new THREE.SphereGeometry( 1, 16, 8 );
-//        var material	= new THREE.MeshNormalMaterial();
-//        var mesh	= new THREE.Mesh( geometry, material );
-//        scene.add( mesh );
-
         var objectHolder = new THREE.Object3D();
-        var lineMat = new THREE.LineBasicMaterial( { color: 0x777777, opacity: 0.5, linewidth: 1 } );
+        var lineMat = new THREE.LineBasicMaterial( { color: 0x666666, opacity: 0.3, linewidth: 1 } );
         for(var i = -10; i <= 10; i++) {
             var geom = new THREE.Geometry();
             geom.vertices.push( new THREE.Vector3(-40, 4*i, 0) );
@@ -117,45 +123,45 @@ window.onload = function () {
         // - it has to be at the begining of the function
         // - see details at http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
         requestAnimationFrame( animate );
+        var delta = clock.getDelta();
+        if(turnRight) {
+            var r = 1*delta
+            ship.rotation.z -= r;
+        }
 
+        if (turnLeft) {
+            var r = 1*delta
+            ship.rotation.z += r;
+        }
+        rotation = ship.rotation.z;
+        ship.updateMatrix();
 
-//        if(keyboard.pressed("d")) {
-//            var r = 1*delta
-//            ship.rotation.z -= r;
-//        }
-//
-//        if (keyboard.pressed("a")) {
-//            var r = 1*delta
-//            ship.rotation.z += r;
-//        }
-//        rotation = ship.rotation.z;
-//        ship.updateMatrix();
-////    if(rotation > Math.PI) {
-////        rotation %= Math.PI;
-////    }
-////    if(rotation < 0) {
-////        rotation =  Math.PI - (rotation%Math.PI);
-////    }
-//
-//        if(keyboard.pressed("w")) {
-//            speed += acceleration * delta;
-//            if(speed > 100) {
-//                speed = 100;
-//            }
-//        } else if(keyboard.pressed("s") && speed > 0) {
-//            speed -= acceleration * delta;
-//            if(speed < 0) {
-//                speed = 0;
-//            }
-//        }
-//
-//        if(speed > 0) {
-//            var yChange = speed*delta*-0.01*Math.cos(rotation);
-//            var xChange = speed*delta*0.01*Math.sin(rotation);
-//            tQuery.moveNavMesh(xChange,yChange);
-//            x += xChange;
-//            y += yChange;
-//        }
+//    if(rotation > Math.PI) {
+//        rotation %= Math.PI;
+//    }
+//    if(rotation < 0) {
+//        rotation =  Math.PI - (rotation%Math.PI);
+//    }
+
+        if(accelerate) {
+            speed += acceleration * delta;
+            if(speed > 100) {
+                speed = 100;
+            }
+        } else if(decelerate) {
+            speed -= acceleration * delta;
+            if(speed < 0) {
+                speed = 0;
+            }
+        }
+
+        if(speed > 0) {
+            var yChange = speed*delta*-0.02*Math.cos(rotation);
+            var xChange = speed*delta*0.02*Math.sin(rotation);
+            moveNavMesh(xChange,yChange);
+            x += xChange;
+            y += yChange;
+        }
         // do the render
         render();
 
@@ -187,23 +193,27 @@ window.onload = function () {
         // actually render the scene
         renderer.render( scene, camera );
     }
+}
 
-    /*
-    world = tQuery.createWorld().boilerplate().start();
-    world.renderer().setClearColorHex( 0x000000, world.renderer().getClearAlpha());
-    world.camera().position.set( 8, 8, 8 );
-    world.camera().lookAt( world.scene().position );
-    tQuery.createShip();
-    // add the fog
-//    world.addFogExp2({density: 0.02});
-//    tQuery.scene().fog	= new THREE.FogExp2(tQuery.renderer().getClearColor().getHex(), 0.02 );
-    world.renderer().shadowMapEnabled   = true;
-    world.renderer().shadowMapSoft      = true;
-//    world.renderer().setClearColorHex( 0xffffff, 1 );
-    tQuery.createAmbientLight().addTo(world).color(0xFFFFFF);
-    tQuery.createSimpleNavMesh().addTo(world);
-    tQuery.hookKeyboard();
-    */
+function moveNavMesh(x,y) {
+    totalX += x;
+    totalY += y;
+    if(totalX >= 4) {
+        totalX = x;
+        x -= 4;
+    } else if(totalX <= -4) {
+        totalX = x;
+        x += 4;
+    }
+    if(totalY >= 4) {
+        totalY = y;
+        y -= 4;
+    } else if(totalY <= -4) {
+        totalY = y;
+        y += 4;
+    }
+    navMesh.translateX(x);
+    navMesh.translateY(y);
 }
 
 function onKey(v) {
