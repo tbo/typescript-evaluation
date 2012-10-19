@@ -76,6 +76,15 @@ td { vertical-align: top; }
 
 html,body {
     background-color: #111;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#canvasView {
+    width: 100%;
+    height: 100%;
 }
 
 /* =============================================================================
