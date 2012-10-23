@@ -33,8 +33,9 @@ window.onload = function () {
     stage.addChild(player);
     space = new createjs.Container();
     var graphic = new createjs.Graphics();
-    graphic .beginFill(new createjs.Graphics.getRGB(125,200,255,1));
-    graphic.drawRoundRect(-30,-30,60,60,4);
+    graphic.beginStroke(createjs.Graphics.getRGB(255,0,0));
+    graphic.beginFill(new createjs.Graphics.getRGB(100,0,0));
+    graphic.drawRect(-30,-30,60,60);
     var roundRectangle= new createjs.Shape(graphic);
     roundRectangle.regX = -300;
     roundRectangle.regY = -300;
@@ -74,8 +75,9 @@ function tick() {
         }
     }
     if(speed > 0) {
-        space.y += speed*Math.cos(player.rotation);
-        space.x += speed*Math.sin(player.rotation);
+        var r = player.rotation * Math.PI / 180;
+        space.y += speed*0.1*Math.cos(r);
+        space.x -= speed*0.1*Math.sin(r);
 //        var yChange = speed*delta*-0.02*Math.cos(rotation);
 //        var xChange = speed*delta*0.02*Math.sin(rotation);
 //        moveNavMesh(xChange,yChange);
