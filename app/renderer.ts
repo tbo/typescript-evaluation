@@ -5,8 +5,8 @@ class Renderer {
 
     private _stage;
     private _baseLayer: number = 0;
-    private _deepestLayer: number = -5;
-    private _highestLayer: number = 5;
+    private _deepestLayer: number = -2;
+    private _highestLayer: number = 2;
     private _layers: Kinetic.Layer[] = [];
     private _tickListener: any[] = [];
 
@@ -24,8 +24,12 @@ class Renderer {
             }
             lastTick = currentTick;
             that.redraw();
+            if(elapsedTime > 20) {
+                console.log(elapsedTime);
+            }
             raf(tick);
         })()
+//        setInterval(tick,15)
 
     }
 

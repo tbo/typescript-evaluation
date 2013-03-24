@@ -1,7 +1,7 @@
 ///<reference path='renderer.ts'/>
 class Player {
     private _shape: Kinetic.Shape;
-    private _turnFactor: number = 0.03;
+    private _turnFactor: number = 0.07;
 
     constructor(private name: string, private _x: number, private _y: number) {
         var r = Renderer.getInstance();

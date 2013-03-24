@@ -343,6 +343,7 @@ module Kinetic {
     }
 
     class Animation extends Container {
+        isRunning();
         start();
         stop();
     }
