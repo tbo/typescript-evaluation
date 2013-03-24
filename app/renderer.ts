@@ -8,14 +8,25 @@ class Renderer {
     private _deepestLayer: number = -5;
     private _highestLayer: number = 5;
     private _layers: Kinetic.Layer[] = [];
+    private _tickListener: any[] = [];
 
     constructor()
     {
-        window.requestAnimationFrame = window.requestAnimationFrame;
+        this._stage = this.createStage("screen")
+        var raf = window.requestAnimationFrame;
         var that = this;
-        window.requestAnimationFrame(function (){
+        var lastTick = new Date().getTime();
+        (function tick() {
+            var currentTick = new Date().getTime();
+            var elapsedTime = currentTick - lastTick;
+            for(var i:number = 0; i < that._tickListener.length; i++) {
+                that._tickListener[i](elapsedTime);
+            }
+            lastTick = currentTick;
             that.redraw();
-        });
+            raf(tick);
+        })()
+
     }
 
     public static getInstance():Renderer
@@ -26,39 +37,30 @@ class Renderer {
         return _instance;
     }
 
-    public createStage(container:string):void
+    public createStage(container:string):Kinetic.Stage
     {
         // Create stage
         this._stage = new Kinetic.Stage({
             container: container,
-            width: 578,
-            height: 200
+            width: 800,
+            height: 600
         });
 
         // Create Layers
         for(var i:number = this._deepestLayer; i <= this._highestLayer; i++) {
             this._layers[i] = new Kinetic.Layer();
-            var rect = new Kinetic.Rect({
-                x: 10,
-                y: 10,
-                width: 100,
-                height: 50,
-                fill: 'green',
-                stroke: 'white',
-                strokeWidth: 4
-            });
             this._stage.add(this._layers[i]);
         }
+        return this._stage;
     }
 
-    public addPlayer(x,y: number): Kinetic.Shape {
+    public drawModel(x,y: number, model: string): Kinetic.Shape {
         var p = new Kinetic.Rect({
             x: x,
             y: y,
-            width: 100,
-            height: 50,
-            fill: 'green',
-            stroke: 'white',
+            width: 150,
+            height: 150,
+            stroke: 'black',
             strokeWidth: 4
         });
         this._layers[this._baseLayer].add(p);
@@ -73,5 +75,9 @@ class Renderer {
         } else {
             this._layers[layer].draw();
         }
+    }
+
+    public registerTickListener(callback: any) {
+        this._tickListener.push(callback);
     }
 }

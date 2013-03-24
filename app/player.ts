@@ -1,19 +1,51 @@
 ///<reference path='renderer.ts'/>
 class Player {
-    private _player: Kinetic.Shape;
+    private _shape: Kinetic.Shape;
+    private _turnFactor: number = 0.03;
 
-    constructor(private name: string, private x,y: number) {
-        // Some scene creating code
+    constructor(private name: string, private _x: number, private _y: number) {
         var r = Renderer.getInstance();
-        this._player = r.addPlayer(x,y);
-        this._player.setRotationDeg(50);
-        r.redraw();
-    }
+        this._shape = r.drawModel(this._x,this._y,"ship");
+        var c = 0;
+        var that = this;
+        var rotation: number = 0;
 
-    public turnRight() {
-    }
+        var accelerate: bool = false
+        var turnLeft: bool = false
+        var decelerate: bool = false
+        var turnRight: bool = false
 
-    public turnLeft() {
+        function onKey(v) {
+            return function ( event ) {
+                //event.preventDefault();
+                switch ( event.keyCode ) {
+                    case 38: /*up*/
+                    case 87: /*W*/ accelerate = v; break;
 
+                    case 37: /*left*/
+                    case 65: /*A*/ turnLeft = v; break;
+
+                    case 40: /*down*/
+                    case 83: /*S*/ decelerate = v; break;
+
+                    case 39: /*right*/
+                    case 68: /*D*/ turnRight = v; break;
+                }
+            };
+        }
+
+        document.addEventListener( 'keydown', onKey(true), false );
+        document.addEventListener( 'keyup', onKey(false), false );
+
+        r.registerTickListener(function (delta) {
+            if(turnRight) {
+                rotation += delta*that._turnFactor;
+            }
+            if(turnLeft) {
+                rotation -= delta*that._turnFactor;
+            }
+            that._shape.setRotationDeg(rotation);
+        });
+        return this;
     }
 };
