@@ -195,6 +195,10 @@ module Kinetic {
         setRadius(radius: number);
     }
 
+    class Blob extends  Shape {
+        constructor (config: any);
+    }
+
     class Group extends Container {
         constructor (config: ObjectOptionsConfig);
     }

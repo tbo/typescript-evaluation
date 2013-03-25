@@ -16,7 +16,7 @@ class Renderer {
         var raf = window.requestAnimationFrame;
         var that = this;
         var lastTick = new Date().getTime();
-        (function tick() {
+        function tick() {
             var currentTick = new Date().getTime();
             var elapsedTime = currentTick - lastTick;
             for(var i:number = 0; i < that._tickListener.length; i++) {
@@ -24,11 +24,9 @@ class Renderer {
             }
             lastTick = currentTick;
             that.redraw();
-            if(elapsedTime > 20) {
-                console.log(elapsedTime);
-            }
             raf(tick);
-        })()
+        }
+        tick();
 //        setInterval(tick,15)
 
     }
@@ -59,13 +57,19 @@ class Renderer {
     }
 
     public drawModel(x,y: number, model: string): Kinetic.Shape {
-        var p = new Kinetic.Rect({
-            x: x,
-            y: y,
-            width: 150,
-            height: 150,
+        var p = new Kinetic.Polygon({
+            points: [
+                0,0,
+                15,60,
+                2,10,
+                20,20,
+                0,0
+            ],
+            fill: '#00D2FF',
             stroke: 'black',
-            strokeWidth: 4
+            strokeWidth: 1,
+            x: x,
+            y: y
         });
         this._layers[this._baseLayer].add(p);
         return p;
