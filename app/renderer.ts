@@ -56,23 +56,88 @@ class Renderer {
         return this._stage;
     }
 
-    public drawModel(x,y: number, model: string): Kinetic.Shape {
-        var p = new Kinetic.Polygon({
+    public drawModel(c: modelConfig): Kinetic.Group {
+        var group = new Kinetic.Group(c);
+//        var b = new Kinetic.Polygon({
+//            points: [
+//                -35,23,
+//                -35,15,
+//                -5,-64,
+//                5,-64,
+//                35,15,
+//                35,23
+//            ],
+//            fill: '#f0f0f0',
+//            stroke: '#555555',
+//            strokeWidth: 1,
+//            x: 0,
+//            y: 0
+//        });
+//        group.add(b);
+//        var p = new Kinetic.Polygon({
+//            points: [
+//                -4,53,
+//                -10,60,
+//                -11,67,
+//                -15,67,
+//                -35,53,
+//                -35,23,
+//                -18,-7,
+//                -6,-64,
+//                -3,-67,
+//                3,-67,
+//                6,-64,
+//                18,-7,
+//                35,23,
+//                35,53,
+//                15,67,
+//                11,67,
+//                10,60,
+//                4,53
+//            ],
+//            fill: '#dfdfdf',
+//            stroke: '#555555',
+//            strokeWidth: 1,
+//            x: 0,
+//            y: 0
+//        });
+//        group.add(p);
+//        var c = new Kinetic.Polygon({
+//            points: [
+//                -4,62,
+//                -10,57,
+//                -18,-7,
+//                -6,-64,
+//                -3,-67,
+//                3,-67,
+//                6,-64,
+//                18,-7,
+//                10,57,
+//                4,62
+//            ],
+//            fill: '#f5f5f5',
+//            stroke: '#555555',
+//            strokeWidth: 1,
+//            x: 0,
+//            y: 0
+//        });
+//        group.add(c);
+        var b = new Kinetic.Polygon({
             points: [
-                0,0,
-                15,60,
-                2,10,
-                20,20,
-                0,0
+                -12,120,
+                -7,0,
+                7,0,
+                12,120
             ],
-            fill: '#00D2FF',
-            stroke: 'black',
+            fill: '#dddddd',
+            stroke: '#999999',
             strokeWidth: 1,
-            x: x,
-            y: y
+            x: 0,
+            y: 0
         });
-        this._layers[this._baseLayer].add(p);
-        return p;
+        group.add(b);
+        this._layers[this._baseLayer].add(group);
+        return group;
     }
 
     public redraw(layer?: number) {
@@ -88,4 +153,8 @@ class Renderer {
     public registerTickListener(callback: any) {
         this._tickListener.push(callback);
     }
+}
+
+interface modelConfig extends Kinetic.ObjectOptionsConfig {
+    model: string;
 }

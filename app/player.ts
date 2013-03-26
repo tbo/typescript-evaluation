@@ -1,11 +1,11 @@
 ///<reference path='renderer.ts'/>
 class Player {
-    private _shape: Kinetic.Shape;
+    private _shape: Kinetic.Group;
     private _turnFactor: number = 0.07;
 
     constructor(private name: string, private _x: number, private _y: number) {
         var r = Renderer.getInstance();
-        this._shape = r.drawModel(this._x,this._y,"ship");
+        this._shape = r.drawModel({x:this._x,y:this._y,model:"ship"});
         var c = 0;
         var that = this;
         var rotation: number = 0;

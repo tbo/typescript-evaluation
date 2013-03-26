@@ -190,7 +190,7 @@ module Kinetic {
     }
 
     class Ellipse extends  Shape {
-        constructor (config: CircleConfig);
+        constructor (config: EllipseConfig);
         getRadius(): number;
         setRadius(radius: number);
     }
@@ -200,7 +200,7 @@ module Kinetic {
     }
 
     class Group extends Container {
-        constructor (config: ObjectOptionsConfig);
+        constructor (config?: ObjectOptionsConfig);
     }
 
     class Collection {
@@ -371,6 +371,13 @@ module Kinetic {
 
     interface CircleConfig extends DrawOptionsConfig, ObjectOptionsConfig {
         radius: number;
+    }
+
+    interface EllipseConfig extends DrawOptionsConfig, ObjectOptionsConfig {
+        radius: {
+            x: number;
+            y: number;
+        };
     }
 
     interface ImageConfig extends DrawOptionsConfig, ObjectOptionsConfig {
