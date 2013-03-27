@@ -5,7 +5,11 @@ class Player {
 
     constructor(private name: string, private _x: number, private _y: number) {
         var r = Renderer.getInstance();
-        this._shape = r.drawModel({x:this._x,y:this._y,model:"ship"});
+        this._shape = r.drawModel({x:this._x,y:this._y,model:"ship",
+            scale: {
+                x: 1.4,
+                y: 1.4
+            }});
         var c = 0;
         var that = this;
         var rotation: number = 0;

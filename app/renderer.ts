@@ -124,18 +124,66 @@ class Renderer {
 //        group.add(c);
         var b = new Kinetic.Polygon({
             points: [
-                -12,120,
-                -7,0,
-                7,0,
-                12,120
+                -3,98,
+                -7,102,
+                -12,102,
+                -22,90,
+                -22,52,
+                -12,43,
+                -8,13,
+                -4,3,
+                4,3,
+                8,13,
+                12,43,
+                22,52,
+                22,90,
+                12,102,
+                7,102,
+                3,98
             ],
-            fill: '#dddddd',
+            fill: '#f0f0f0',
             stroke: '#999999',
             strokeWidth: 1,
             x: 0,
-            y: 0
+            y: 0,
+            offset: {
+                x: 0,
+                y: 49
+            }
         });
         group.add(b);
+        var c = new Kinetic.Polygon({
+            points: [
+                9,63,
+                21,52,
+                21,90,
+                9,79
+            ],
+            fill: '#dddddd',
+            x: 0,
+            y: 0,
+            offset: {
+                x: 0,
+                y: 49
+            }
+        });
+        group.add(c);
+        var d = new Kinetic.Polygon({
+            points: [
+                -9,63,
+                -21,52,
+                -21,90,
+                -9,79
+            ],
+            fill: '#dddddd',
+            x: 0,
+            y: 0,
+            offset: {
+                x: 0,
+                y: 49
+            }
+        });
+        group.add(d);
         this._layers[this._baseLayer].add(group);
         return group;
     }
