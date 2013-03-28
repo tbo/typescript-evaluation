@@ -3,9 +3,11 @@ class Player {
     private _shape: Kinetic.Group;
     private _turnFactor: number = 0.07;
 
-    constructor(private name: string, private _x: number, private _y: number) {
+    constructor() {
         var r = Renderer.getInstance();
-        this._shape = r.drawModel({x:this._x,y:this._y,model:"ship",
+        var x = window.innerWidth/2;
+        var y = window.innerHeight/2;
+        this._shape = r.drawModel({x:x,y:y,model:"ship",
             scale: {
                 x: 1.4,
                 y: 1.4

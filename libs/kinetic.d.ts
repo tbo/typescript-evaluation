@@ -42,7 +42,7 @@ module Kinetic {
         getLevel(): number;
         getListening(): any;
         getName(): string;
-        getOffset(): number;
+        getOffset(): Vector2d;
         getOpacity(): number;
         getParent(): any;
         getPosition(): Vector2d;

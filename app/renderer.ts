@@ -42,12 +42,21 @@ class Renderer {
     public createStage(container:string):Kinetic.Stage
     {
         // Create stage
-        this._stage = new Kinetic.Stage({
+        var stage: Kinetic.Stage = new Kinetic.Stage({
             container: container,
-            width: 800,
-            height: 600
+            width: window.innerWidth,
+            height: window.innerHeight
         });
 
+        window.onresize = function(event) {
+
+            var xDiff = (stage.getWidth() - window.innerWidth)/2 + stage.getOffset().x;
+            var yDiff = (stage.getHeight() - window.innerHeight)/2 + stage.getOffset().y;
+            stage.setOffset(xDiff,yDiff);
+            stage.setHeight(window.innerHeight);
+            stage.setWidth(window.innerWidth);
+        }
+        this._stage = stage
         // Create Layers
         for(var i:number = this._deepestLayer; i <= this._highestLayer; i++) {
             this._layers[i] = new Kinetic.Layer();
