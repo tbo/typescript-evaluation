@@ -1,17 +1,17 @@
 ///<reference path='renderer.ts'/>
 class Player {
-    private _shape: Kinetic.Group;
+//    private _shape: Kinetic.Group;
     private _turnFactor: number = 0.07;
 
     constructor() {
         var r = Renderer.getInstance();
         var x = window.innerWidth/2;
         var y = window.innerHeight/2;
-        this._shape = r.drawModel({x:x,y:y,model:"ship",
-            scale: {
-                x: 1.4,
-                y: 1.4
-            }});
+//        this._shape = r.drawModel({x:x,y:y,model:"ship",
+//            scale: {
+//                x: 1.4,
+//                y: 1.4
+//            }});
         var c = 0;
         var that = this;
         var rotation: number = 0;
@@ -50,7 +50,7 @@ class Player {
             if(turnLeft) {
                 rotation -= delta*that._turnFactor;
             }
-            that._shape.setRotationDeg(rotation);
+//            that._shape.setRotationDeg(rotation);
         });
         return this;
     }
