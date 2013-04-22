@@ -1,20 +1,16 @@
 ///<reference path='renderer.ts'/>
 class Player {
 //    private _shape: Kinetic.Group;
-    private _turnFactor: number = 0.07;
+    private _turnFactor: number = 0.0007;
 
     constructor() {
         var r = Renderer.getInstance();
         var x = window.innerWidth/2;
         var y = window.innerHeight/2;
-//        this._shape = r.drawModel({x:x,y:y,model:"ship",
-//            scale: {
-//                x: 1.4,
-//                y: 1.4
-//            }});
+        var ship: Ship = r.createShip();
         var c = 0;
         var that = this;
-        var rotation: number = 0;
+
 
         var accelerate: bool = false
         var turnLeft: bool = false
@@ -42,15 +38,18 @@ class Player {
 
         document.addEventListener( 'keydown', onKey(true), false );
         document.addEventListener( 'keyup', onKey(false), false );
-
-        r.registerTickListener(function (delta) {
+        var lastFrame: number = 0;
+        r.registerTickListener(function (timestamp: number) {
+            var rotation: number = 0;
+            var delta:number = timestamp - lastFrame;
+            lastFrame = timestamp;
             if(turnRight) {
-                rotation += delta*that._turnFactor;
+                rotation = -delta*that._turnFactor;
             }
             if(turnLeft) {
-                rotation -= delta*that._turnFactor;
+                rotation = delta*that._turnFactor;
             }
-//            that._shape.setRotationDeg(rotation);
+            ship.setRotation(rotation);
         });
         return this;
     }

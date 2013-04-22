@@ -1,56 +1,27 @@
 ///<reference path='../libs/three.d.ts'/>
+///<reference path='ship.ts'/>
 class Renderer {
 
     private static _instance:Renderer;
 
-    private _stage;
-    private _tickListener: any[] = [];
+    private tickListener: any[] = [];
+    private scene: THREE.Scene;
 
     constructor()
     {
-//        this._stage = this.createStage("screen")
-//        var raf = window.requestAnimationFrame;
-//        var that = this;
-//        var lastTick = new Date().getTime();
-//        function tick() {
-//            var currentTick = new Date().getTime();
-//            var elapsedTime = currentTick - lastTick;
-//            for(var i:number = 0; i < that._tickListener.length; i++) {
-//                that._tickListener[i](elapsedTime);
-//            }
-//            lastTick = currentTick;
-//            that.redraw();
-//            raf(tick);
-//        }
-//        tick();
-//        setInterval(tick,15)
-        var camera, scene, renderer;
-        var geometry, material, mesh;
+        var camera, renderer;
+        var geometry;
 
 
 
-        camera = new THREE.PerspectiveCamera( 10, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z = 1000;
 
-        scene = new THREE.Scene();
-
-//            geometry = new THREE.CubeGeometry( 200, 200, 200 );
-
-        mesh = new THREE.Line( this.createGeometry([
-            [4,53],
-            [10,60],
-            [11,67],
-            [15,67],
-            [35,53],
-            [35,23],
-            [18,-7],
-            [6,-64],
-            [3,-67]
-        ]), material );
-        scene.add( mesh );
+        this.scene = new THREE.Scene();
 
         renderer = new THREE.CanvasRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
+        var that = this;
         window.onresize = function(event) {
             renderer.setSize( window.innerWidth, window.innerHeight );
             camera.aspect	= window.innerWidth / window.innerHeight;
@@ -58,17 +29,15 @@ class Renderer {
         }
         document.body.appendChild( renderer.domElement );
 
+
+        var tickListener = this.tickListener;
         animate();
-
-        function animate() {
-
-            // note: three.js includes requestAnimationFrame shim
+        function animate(delta? = 0) {
             requestAnimationFrame( animate );
-
-            mesh.rotation.x += 0.01;
-            mesh.rotation.y += 0.02;
-
-            renderer.render( scene, camera );
+            for(var i: number = 0, len: number = tickListener.length; i < len; i ++) {
+                tickListener[i](delta);
+            }
+            renderer.render( that.scene, camera );
 
         }
     }
@@ -86,8 +55,20 @@ class Renderer {
 
     }
 
-    public drawModel(c) {
-
+    public createShip(): Ship {
+        var mesh: THREE.Object3D = new THREE.Line( this.createGeometry([
+            [4,53],
+            [10,60],
+            [11,67],
+            [15,67],
+            [35,53],
+            [35,23],
+            [18,-7],
+            [6,-64],
+            [3,-67]
+        ]));
+        this.scene.add(mesh);
+        return new Ship(mesh);
     }
 
     public redraw(layer?: number) {
@@ -101,7 +82,7 @@ class Renderer {
     }
 
     public registerTickListener(callback: any) {
-//        this._tickListener.push(callback);
+        this.tickListener.push(callback);
     }
 
     public createGeometry(p: number[][]):THREE.Geometry {
@@ -109,10 +90,8 @@ class Renderer {
         var len:number = p.length;
         for(var i = 0; i < len;i++) {
             g.vertices.push(new THREE.Vector3(p[i][0], p[i][1], 0));
-            console.log(p[i][0],p[i][1]);
         }
         for(var i = len-1; i >= 0;i--) {
-            console.log(p[i][0]*-1,p[i][1]);
             g.vertices.push(new THREE.Vector3(p[i][0]*-1, p[i][1], 0));
         }
         g.vertices.push(new THREE.Vector3(p[0][0], p[0][1], 0));
