@@ -75,17 +75,14 @@ td { vertical-align: top; }
    ========================================================================== */
 
 html,body {
-    background-color: white;
+    background-color: black;
     width: 100%;
     height: 100%;
     margin: 0px;
     padding: 0px;
 }
 
-#screen {
-}
-
-#screen > div {
+body > canvas {
     display: block !important;
 }
 

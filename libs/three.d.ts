@@ -5564,6 +5564,10 @@ module THREE {
         };
     }
 
+    export class PolyhedronGeometry extends Geometry {
+        constructor(vertices: Vector3[], faces: Face[], radius?: number, detail?: number);
+    }
+
     export class IcosahedronGeometry extends PolyhedronGeometry {
         constructor(radius: number, detail: number);
     }
@@ -5586,10 +5590,6 @@ module THREE {
         height: number;
         widthSegments: number;
         heightSegments: number;
-    }
-
-    export class PolyhedronGeometry extends Geometry {
-        constructor(vertices: Vector3[], faces: Face[], radius?: number, detail?: number);
     }
 
     export class ShapeGeometry extends Geometry {

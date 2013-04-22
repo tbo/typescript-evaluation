@@ -52,10 +52,9 @@ class Renderer {
         renderer = new THREE.CanvasRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
         window.onresize = function(event) {
-//                var xDiff = (stage.getWidth() - window.innerWidth)/2 + stage.getOffset().x;
-//                var yDiff = (stage.getHeight() - window.innerHeight)/2 + stage.getOffset().y;
-//                stage.setOffset(xDiff,yDiff);
             renderer.setSize( window.innerWidth, window.innerHeight );
+            camera.aspect	= window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
         }
         document.body.appendChild( renderer.domElement );
 
@@ -66,8 +65,8 @@ class Renderer {
             // note: three.js includes requestAnimationFrame shim
             requestAnimationFrame( animate );
 
-//            mesh.rotation.x += 0.01;
-//            mesh.rotation.y += 0.02;
+            mesh.rotation.x += 0.01;
+            mesh.rotation.y += 0.02;
 
             renderer.render( scene, camera );
 
