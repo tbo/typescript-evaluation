@@ -7,7 +7,7 @@ class Player {
         var r = Renderer.getInstance();
         var x = window.innerWidth/2;
         var y = window.innerHeight/2;
-        var ship: Ship = r.createShip();
+        var ship: Ship = r.createShip(0xff0000);
         var c = 0;
         var that = this;
 

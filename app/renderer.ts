@@ -12,8 +12,6 @@ class Renderer {
         var camera, renderer;
         var geometry;
 
-
-
         camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z = 1000;
 
@@ -30,15 +28,19 @@ class Renderer {
         document.body.appendChild( renderer.domElement );
 
 
+        var plane = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.MeshNormalMaterial());
+        this.scene.add(plane);
+
         var tickListener = this.tickListener;
         animate();
         function animate(delta? = 0) {
-            requestAnimationFrame( animate );
+            // Webstorm Hack
+            var raf = requestAnimationFrame;
+            raf( animate );
             for(var i: number = 0, len: number = tickListener.length; i < len; i ++) {
                 tickListener[i](delta);
             }
             renderer.render( that.scene, camera );
-
         }
     }
 
@@ -50,12 +52,10 @@ class Renderer {
         return _instance;
     }
 
-    public createStage(container:string)
-    {
-
-    }
-
-    public createShip(): Ship {
+    public createShip(color: number): Ship {
+        var material = new THREE.LineBasicMaterial({
+            color: color
+        });
         var mesh: THREE.Object3D = new THREE.Line( this.createGeometry([
             [4,53],
             [10,60],
@@ -66,19 +66,9 @@ class Renderer {
             [18,-7],
             [6,-64],
             [3,-67]
-        ]));
+        ]), material);
         this.scene.add(mesh);
         return new Ship(mesh);
-    }
-
-    public redraw(layer?: number) {
-//        if(layer === undefined) {
-//            for(var i:number = this._deepestLayer; i <= this._highestLayer; i++) {
-//                this._layers[i].draw();
-//            }
-//        } else {
-//            this._layers[layer].draw();
-//        }
     }
 
     public registerTickListener(callback: any) {
