@@ -11,6 +11,6 @@ class Ship {
     }
 
     public setRotation(r:number) {
-        this.model.rotation.z += r;
+        this.model.rotation.z = r;
     }
 }

@@ -1,4 +1,5 @@
 ///<reference path='../libs/three.d.ts'/>
+///<reference path='space.ts'/>
 ///<reference path='ship.ts'/>
 class Renderer {
 
@@ -6,17 +7,18 @@ class Renderer {
 
     private tickListener: any[] = [];
     private scene: THREE.Scene;
+    private space: Space;
 
     constructor()
     {
         var camera, renderer;
-        var geometry;
 
         camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z = 1000;
 
         this.scene = new THREE.Scene();
-
+        this.space = Space.getInstance();
+        this.space.setScene(this.scene);
         renderer = new THREE.CanvasRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
         var that = this;
@@ -29,7 +31,7 @@ class Renderer {
 
 
         var plane = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.MeshNormalMaterial());
-        this.scene.add(plane);
+        this.space.add(plane);
 
         var tickListener = this.tickListener;
         animate();
