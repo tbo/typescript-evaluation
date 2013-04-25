@@ -11,15 +11,16 @@ class Renderer {
 
     constructor()
     {
-        var camera, renderer;
+        var camera: THREE.PerspectiveCamera, renderer;
 
-        camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z = 1000;
+        camera.lookAt()
 
         this.scene = new THREE.Scene();
         this.space = Space.getInstance();
         this.space.setScene(this.scene);
-        renderer = new THREE.CanvasRenderer();
+        renderer = new THREE.WebGLRenderer({antialias:true});
         renderer.setSize( window.innerWidth, window.innerHeight );
         var that = this;
         window.onresize = function(event) {
@@ -81,12 +82,12 @@ class Renderer {
         var g: THREE.Geometry = new THREE.Geometry();
         var len:number = p.length;
         for(var i = 0; i < len;i++) {
-            g.vertices.push(new THREE.Vector3(p[i][0], p[i][1], 0));
+            g.vertices.push(new THREE.Vector3(p[i][0], p[i][1], 1));
         }
         for(var i = len-1; i >= 0;i--) {
-            g.vertices.push(new THREE.Vector3(p[i][0]*-1, p[i][1], 0));
+            g.vertices.push(new THREE.Vector3(p[i][0]*-1, p[i][1], 1));
         }
-        g.vertices.push(new THREE.Vector3(p[0][0], p[0][1], 0));
+        g.vertices.push(new THREE.Vector3(p[0][0], p[0][1], 1));
         return g;
     }
 }
