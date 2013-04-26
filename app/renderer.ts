@@ -8,14 +8,14 @@ class Renderer {
     private tickListener: any[] = [];
     private scene: THREE.Scene;
     private space: Space;
+    public camera: THREE.PerspectiveCamera;
 
     constructor()
     {
-        var camera: THREE.PerspectiveCamera, renderer;
-
-        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
-        camera.position.z = 1000;
-        camera.lookAt()
+        var renderer;
+        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+        this.camera.position.z = 1000;
+//        camera.
 
         this.scene = new THREE.Scene();
         this.space = Space.getInstance();
@@ -25,8 +25,8 @@ class Renderer {
         var that = this;
         window.onresize = function(event) {
             renderer.setSize( window.innerWidth, window.innerHeight );
-            camera.aspect	= window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
+            that.camera.aspect	= window.innerWidth / window.innerHeight;
+            that.camera.updateProjectionMatrix();
         }
         document.body.appendChild( renderer.domElement );
 
@@ -43,8 +43,30 @@ class Renderer {
             for(var i: number = 0, len: number = tickListener.length; i < len; i ++) {
                 tickListener[i](delta);
             }
-            renderer.render( that.scene, camera );
+            renderer.render( that.scene, that.camera );
         }
+
+        function mousewheel( e ) {
+            var d = ((typeof e.wheelDelta != "undefined")?(-e.wheelDelta):e.detail);
+            d = 100 * ((d>0)?1:-1);
+            var cPos = that.camera.position;
+            if (isNaN(cPos.x) || isNaN(cPos.y) || isNaN(cPos.y)) return;
+
+            // Your zomm limitation
+            // For X axe you can add anothers limits for Y / Z axes
+//            if (cPos.x > _YOUR_ZOOM_MIN_X_  or cPos.x < _YOUR_ZOOM_MAX_X_ ){
+//                return ;
+//            }
+
+            var mb = d>0 ? 1.1 : 0.9 ;
+            cPos.x  = cPos.x * mb;
+            cPos.y  = cPos.y * mb;
+            cPos.z  = cPos.z * mb;
+
+        }
+
+        document.body.addEventListener( 'mousewheel', mousewheel, false );
+        document.body.addEventListener( 'DOMMouseScroll', mousewheel, false );
     }
 
     public static getInstance():Renderer

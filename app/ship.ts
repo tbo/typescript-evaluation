@@ -13,4 +13,14 @@ class Ship {
     public setRotation(r:number) {
         this.model.rotation.z = r;
     }
+
+    public move(x: number, y: number, z: number = 0) {
+        this.model.translateX(x);
+        this.model.translateY(y);
+        this.model.translateZ(z);
+    }
+
+    public getPosition():THREE.Vector3 {
+        return this.model.position;
+    }
 }

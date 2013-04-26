@@ -72,16 +72,17 @@ class Player {
                     speed = 0;
                 }
             }
-            if(speed > 0) {
-                var r = rotation * Math.PI;
-                var yChange = speed*delta*0.001*Math.cos(rotation);
-                var xChange = speed*delta*-0.001*Math.sin(rotation);
-//        moveNavMesh(xChange,yChange);
-//        x += xChange;
-//        y += yChange;
-                space.move(xChange,yChange);
-            }
 
+            if(speed > 0) {
+                var rot = rotation * Math.PI / 180;
+                var yChange = speed*delta*-0.001*Math.cos(rot);
+                var xChange = speed*delta*-0.001*Math.sin(rot);
+                ship.move(xChange,yChange);
+            }
+            var pos = ship.getPosition();
+            r.camera.position.x = pos.x;
+            r.camera.position.y = pos.y;
+            r.camera.lookAt(pos);
         });
         return this;
     }
