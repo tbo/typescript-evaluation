@@ -13,6 +13,10 @@ class Renderer {
     constructor()
     {
         var renderer;
+        var changeAngle: bool = false;
+        var cursorStartPosition: THREE.Vector2 = new THREE.Vector2(0,0);
+        var cursorPosition: THREE.Vector2 = new THREE.Vector2(0,0);
+        var diff: THREE.Vector2;
         this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
         this.camera.position.z = 1000;
 //        camera.
@@ -43,6 +47,12 @@ class Renderer {
             for(var i: number = 0, len: number = tickListener.length; i < len; i ++) {
                 tickListener[i](delta);
             }
+            if(changeAngle) {
+                diff.set(
+                    Math.abs(cursorPosition.x-cursorStartPosition.x)/window.innerWidth,
+                    Math.abs(cursorPosition.y-cursorStartPosition.y)/window.innerHeight
+                )
+            }
             renderer.render( that.scene, that.camera );
         }
 
@@ -65,8 +75,27 @@ class Renderer {
 
         }
 
+        function rightClickDown(e) {
+            e.preventDefault();
+            cursorStartPosition.set(e.clientX, e.clientY);
+            changeAngle = true;
+        }
+
+        function rightClickUp(e) {
+            if(e.button == 2) {
+                changeAngle = false;
+            }
+        }
+
+        function setCursorPosition(e) {
+            cursorPosition.set(e.clientX, e.clientY);
+        }
+
         document.body.addEventListener( 'mousewheel', mousewheel, false );
         document.body.addEventListener( 'DOMMouseScroll', mousewheel, false );
+        document.body.addEventListener( 'contextmenu', rightClickDown, false );
+        document.body.addEventListener( 'mouseup', rightClickUp, false );
+        document.body.addEventListener( 'mousemove', setCursorPosition, false );
     }
 
     public static getInstance():Renderer
