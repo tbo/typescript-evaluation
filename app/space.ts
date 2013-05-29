@@ -16,7 +16,7 @@ class Space {
         var startY: number = -1000;
 
         var material = new THREE.LineBasicMaterial({
-            color: 0x0e0e0e,
+            color: 0x333333,
             linewidth: 2
         });
 

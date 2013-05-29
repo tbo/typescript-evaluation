@@ -79,10 +79,7 @@ class Player {
                 var xChange = speed*delta*-0.001*Math.sin(rot);
                 ship.move(xChange,yChange);
             }
-            var pos = ship.getPosition();
-            r.camera.position.x = pos.x;
-            r.camera.position.y = pos.y;
-            r.camera.lookAt(pos);
+            r.updateCamera(ship.getPosition());
         });
         return this;
     }

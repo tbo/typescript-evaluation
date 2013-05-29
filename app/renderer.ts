@@ -8,15 +8,46 @@ class Renderer {
     private tickListener: any[] = [];
     private scene: THREE.Scene;
     private space: Space;
+    private focusPosition: THREE.Vector3;
+    private focusOffsetPosition: THREE.Vector3 = new THREE.Vector3(0,0,0);
+    private test = false;
     public camera: THREE.PerspectiveCamera;
+
+    public updateCamera(pos?: THREE.Vector3) {
+        if (pos) {
+            this.focusPosition = pos;
+        }
+        this.camera.position.x = this.focusPosition.x + this.focusOffsetPosition.x;
+        this.camera.position.y = this.focusPosition.y + this.focusOffsetPosition.y;
+//        if(this.camera.position.y > 0 ) {
+//            this.camera.position.y = 0;
+//        }
+//        this.camera.position.x = -500;
+//        this.scene.rotation.y = 100;
+
+//        this.camera.position.z = pos.z + this.focusOffsetPosition.z;
+//        this.camera.
+        this.camera.lookAt(this.focusPosition);
+//        this.camera.rotation.z = -Math.PI/2;
+//        this.camera.rotation.y = 0;
+//        this.camera.rotation.z = 0;
+        this.camera.updateProjectionMatrix();
+
+    }
+//    var relativeCameraOffset = new THREE.Vector3(0,50,200);
+//
+//    var cameraOffset = relativeCameraOffset.applyMatrix4( MovingCube.matrixWorld );
 
     constructor()
     {
+        var deg2rad = Math.PI/180;
         var renderer;
         var changeAngle: bool = false;
         var cursorStartPosition: THREE.Vector2 = new THREE.Vector2(0,0);
         var cursorPosition: THREE.Vector2 = new THREE.Vector2(0,0);
-        var diff: THREE.Vector2;
+        var diff: THREE.Vector2 = new THREE.Vector2(0,0);
+        var oldDiff: THREE.Vector2 = new THREE.Vector2(0,0);
+        var radious = 1600, theta = 45, onMouseDownTheta = 45, phi = 60, onMouseDownPhi = 60, onMouseDownPosition: THREE.Vector2 = new THREE.Vector2();
         this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
         this.camera.position.z = 1000;
 //        camera.
@@ -49,9 +80,13 @@ class Renderer {
             }
             if(changeAngle) {
                 diff.set(
-                    Math.abs(cursorPosition.x-cursorStartPosition.x)/window.innerWidth,
-                    Math.abs(cursorPosition.y-cursorStartPosition.y)/window.innerHeight
+                    ((cursorPosition.x-cursorStartPosition.x)/window.innerWidth)+oldDiff.x,
+                    ((cursorPosition.y-cursorStartPosition.y)/window.innerHeight)+oldDiff.y
                 )
+                var angleChangeFactor = 1500;
+                that.focusOffsetPosition.y = diff.y*angleChangeFactor;
+                that.focusOffsetPosition.x = diff.x*angleChangeFactor;
+                that.updateCamera();
             }
             renderer.render( that.scene, that.camera );
         }
@@ -77,6 +112,7 @@ class Renderer {
 
         function rightClickDown(e) {
             e.preventDefault();
+
             cursorStartPosition.set(e.clientX, e.clientY);
             changeAngle = true;
         }
@@ -84,6 +120,7 @@ class Renderer {
         function rightClickUp(e) {
             if(e.button == 2) {
                 changeAngle = false;
+                oldDiff.set(diff.x,diff.y);
             }
         }
 
@@ -141,4 +178,6 @@ class Renderer {
         g.vertices.push(new THREE.Vector3(p[0][0], p[0][1], 1));
         return g;
     }
+
+
 }

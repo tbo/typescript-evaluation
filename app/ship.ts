@@ -7,7 +7,7 @@ class Ship {
     constructor(m: THREE.Object3D)
     {
         this.model = m;
-
+        console.log(m.matrixRotationWorld);
     }
 
     public setRotation(r:number) {
