@@ -14,11 +14,11 @@ class Renderer {
     public camera: THREE.PerspectiveCamera;
 
     public updateCamera(pos?: THREE.Vector3) {
-        if (pos) {
-            this.focusPosition = pos;
-        }
-        this.camera.position.x = this.focusPosition.x + this.focusOffsetPosition.x;
-        this.camera.position.y = this.focusPosition.y + this.focusOffsetPosition.y;
+//        if (pos) {
+//            this.focusPosition = pos;
+//        }
+//        this.camera.position.x = this.focusPosition.x + this.focusOffsetPosition.x;
+//        this.camera.position.y = this.focusPosition.y + this.focusOffsetPosition.y;
 //        if(this.camera.position.y > 0 ) {
 //            this.camera.position.y = 0;
 //        }
@@ -27,11 +27,11 @@ class Renderer {
 
 //        this.camera.position.z = pos.z + this.focusOffsetPosition.z;
 //        this.camera.
-        this.camera.lookAt(this.focusPosition);
+//        this.camera.lookAt(this.focusPosition);
 //        this.camera.rotation.z = -Math.PI/2;
 //        this.camera.rotation.y = 0;
 //        this.camera.rotation.z = 0;
-        this.camera.updateProjectionMatrix();
+//        this.camera.updateProjectionMatrix();
 
     }
 //    var relativeCameraOffset = new THREE.Vector3(0,50,200);
@@ -51,7 +51,7 @@ class Renderer {
         this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
         this.camera.position.z = 1000;
 //        camera.
-
+        var controls = new THREE.OrbitControls( this.camera );
         this.scene = new THREE.Scene();
         this.space = Space.getInstance();
         this.space.setScene(this.scene);
@@ -74,6 +74,7 @@ class Renderer {
         function animate(delta? = 0) {
             // Webstorm Hack
             var raf = requestAnimationFrame;
+
             raf( animate );
             for(var i: number = 0, len: number = tickListener.length; i < len; i ++) {
                 tickListener[i](delta);
@@ -88,6 +89,7 @@ class Renderer {
                 that.focusOffsetPosition.x = diff.x*angleChangeFactor;
                 that.updateCamera();
             }
+            controls.update();
             renderer.render( that.scene, that.camera );
         }
 
@@ -128,11 +130,11 @@ class Renderer {
             cursorPosition.set(e.clientX, e.clientY);
         }
 
-        document.body.addEventListener( 'mousewheel', mousewheel, false );
-        document.body.addEventListener( 'DOMMouseScroll', mousewheel, false );
-        document.body.addEventListener( 'contextmenu', rightClickDown, false );
-        document.body.addEventListener( 'mouseup', rightClickUp, false );
-        document.body.addEventListener( 'mousemove', setCursorPosition, false );
+//        document.body.addEventListener( 'mousewheel', mousewheel, false );
+//        document.body.addEventListener( 'DOMMouseScroll', mousewheel, false );
+//        document.body.addEventListener( 'contextmenu', rightClickDown, false );
+//        document.body.addEventListener( 'mouseup', rightClickUp, false );
+//        document.body.addEventListener( 'mousemove', setCursorPosition, false );
     }
 
     public static getInstance():Renderer

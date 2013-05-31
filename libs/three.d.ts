@@ -5894,4 +5894,24 @@ module THREE {
         cube: Shader;
         depthRGBA: Shader;
     };
+
+    export class Control {
+        update();
+    }
+
+    export class OrbitControls {
+        constructor(any);
+        update();
+    };
+
+    export class EditorControls {
+        constructor(any);
+
+    };
+
+    export class TrackballControls {
+        constructor(any);
+    };
+
+
 }
