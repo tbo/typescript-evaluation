@@ -79,7 +79,6 @@ class Player {
                 var xChange = speed*delta*-0.001*Math.sin(rot);
                 ship.move(xChange,yChange);
             }
-            r.updateCamera(ship.getPosition());
         });
         return this;
     }

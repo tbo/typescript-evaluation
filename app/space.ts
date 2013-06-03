@@ -55,12 +55,12 @@ class Space {
 //        }
 //
 //        this.grid = new THREE.Line( geometry , material );
-        function createHexFragment(x: number,y: number):THREE.Line {
+        function createHexFragment(x: number,z: number):THREE.Line {
             var geometry: THREE.Geometry = new THREE.Geometry();
-            geometry.vertices.push(new THREE.Vector3(x, y, 0));
-            geometry.vertices.push(new THREE.Vector3(x+b, y+c, 0));
-            geometry.vertices.push(new THREE.Vector3(x+b+a, y+c, 0));
-            geometry.vertices.push(new THREE.Vector3(x+b+a+b, y, 0));
+            geometry.vertices.push(new THREE.Vector3(x, 0, z));
+            geometry.vertices.push(new THREE.Vector3(x+b, 0, z+c));
+            geometry.vertices.push(new THREE.Vector3(x+b+a, 0, z+c));
+            geometry.vertices.push(new THREE.Vector3(x+b+a+b, 0, z));
             return new THREE.Line(geometry,material);
         }
         this.grid = new THREE.Object3D();
