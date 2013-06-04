@@ -5906,7 +5906,7 @@ module THREE {
 
     export class EditorControls {
         constructor(any);
-
+        focus(any);
     };
 
     export class TrackballControls {

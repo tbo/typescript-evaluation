@@ -42,8 +42,6 @@ class Player {
         document.addEventListener( 'keyup', onKey(false), false );
 
         var lastFrame: number = 0;
-        var speedX: number = 0;
-        var speedY: number = 0;
         var rotation: number = 0;
         var speed: number = 0;
         r.registerTickListener(function (timestamp: number) {
@@ -78,6 +76,9 @@ class Player {
                 var yChange = speed*delta*-0.001*Math.cos(rot);
                 var xChange = speed*delta*-0.001*Math.sin(rot);
                 ship.move(xChange,yChange);
+            }
+            if(speed || turnLeft || turnRight) {
+                r.controls.focus(ship.model);
             }
         });
         return this;

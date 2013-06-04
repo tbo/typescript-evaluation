@@ -2,7 +2,7 @@
 ///<reference path='renderer.ts'/>
 class Ship {
     private rotation: number = 0;
-    private model:THREE.Object3D;
+    public model:THREE.Object3D;
 
     constructor(m: THREE.Object3D)
     {
@@ -11,10 +11,10 @@ class Ship {
     }
 
     public setRotation(r:number) {
-        this.model.rotation.z = r;
+        this.model.rotation.y = r;
     }
 
-    public move(x: number, y: number, z: number = 0) {
+    public move(x: number, z: number, y: number = 0) {
         this.model.translateX(x);
         this.model.translateY(y);
         this.model.translateZ(z);

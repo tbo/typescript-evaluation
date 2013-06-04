@@ -9,6 +9,7 @@ class Renderer {
     private scene: THREE.Scene;
     private space: Space;
     public camera: THREE.PerspectiveCamera;
+    public controls: THREE.EditorControls;
 
 
     constructor()
@@ -16,7 +17,7 @@ class Renderer {
         var renderer;
         this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
         this.camera.position.z = 1000;
-        var controls = new THREE.OrbitControls( this.camera );
+        this.controls = new THREE.EditorControls( this.camera );
         this.scene = new THREE.Scene();
         this.space = Space.getInstance();
         this.space.setScene(this.scene);
@@ -31,9 +32,6 @@ class Renderer {
         document.body.appendChild( renderer.domElement );
 
 
-        var plane = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.MeshNormalMaterial());
-        this.space.add(plane);
-
         var tickListener = this.tickListener;
         animate();
         function animate(delta? = 0) {
@@ -44,7 +42,6 @@ class Renderer {
             for(var i: number = 0, len: number = tickListener.length; i < len; i ++) {
                 tickListener[i](delta);
             }
-            controls.update();
             renderer.render( that.scene, that.camera );
         }
     }
@@ -84,12 +81,12 @@ class Renderer {
         var g: THREE.Geometry = new THREE.Geometry();
         var len:number = p.length;
         for(var i = 0; i < len;i++) {
-            g.vertices.push(new THREE.Vector3(p[i][0], p[i][1], 1));
+            g.vertices.push(new THREE.Vector3(p[i][0], 1, p[i][1]));
         }
         for(var i = len-1; i >= 0;i--) {
-            g.vertices.push(new THREE.Vector3(p[i][0]*-1, p[i][1], 1));
+            g.vertices.push(new THREE.Vector3(p[i][0]*-1, 1, p[i][1]));
         }
-        g.vertices.push(new THREE.Vector3(p[0][0], p[0][1], 1));
+        g.vertices.push(new THREE.Vector3(p[0][0], 1, p[0][1]));
         return g;
     }
 
