@@ -44,7 +44,6 @@ THREE.EditorControls = function ( object, domElement ) {
         vector.x = radius * Math.sin( phi ) * Math.sin( theta );
         vector.y = radius * Math.cos( phi );
         vector.z = radius * Math.sin( phi ) * Math.cos( theta );
-
         object.position.copy( center ).add( vector );
 		object.lookAt( center );
 
@@ -89,10 +88,9 @@ THREE.EditorControls = function ( object, domElement ) {
 		theta += delta.x;
 		phi += delta.y;
 
-		var EPS = 0.000001;
+		var EPS = 0.03;
 
-		phi = Math.max( EPS, Math.min( Math.PI - EPS, phi ) );
-
+		phi = Math.max( EPS, Math.min( Math.PI/2 - EPS, phi ) );
 		var radius = vector.length();
 		vector.x = radius * Math.sin( phi ) * Math.sin( theta );
 		vector.y = radius * Math.cos( phi );
@@ -114,17 +112,13 @@ THREE.EditorControls = function ( object, domElement ) {
 
 		event.preventDefault();
 
-		if ( event.button === 0 ) {
+		if ( event.button === 2 ) {
 
 			state = STATE.ROTATE;
 
 		} else if ( event.button === 1 ) {
 
 			state = STATE.ZOOM;
-
-		} else if ( event.button === 2 ) {
-
-			state = STATE.PAN;
 
 		}
 
@@ -149,10 +143,6 @@ THREE.EditorControls = function ( object, domElement ) {
 		} else if ( state === STATE.ZOOM ) {
 
 			scope.zoom( new THREE.Vector3( 0, 0, movementY ) );
-
-		} else if ( state === STATE.PAN ) {
-
-			scope.pan( new THREE.Vector3( - movementX, movementY, 0 ) );
 
 		}
 
@@ -244,11 +234,6 @@ THREE.EditorControls = function ( object, domElement ) {
 				scope.zoom( new THREE.Vector3( 0, 0, prevDistance - distance ) );
 				prevDistance = distance;
 				break;
-
-			case 3:
-				scope.pan( touch.sub( prevTouch ).setX( - touch.x ) );
-				break;
-
 		}
 
 		prevTouch.set( touches[ 0 ].pageX, touches[ 0 ].pageY, 0 );
