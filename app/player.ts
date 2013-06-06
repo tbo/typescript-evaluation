@@ -12,7 +12,7 @@ class Player {
         var ship: Ship = r.createShip(0xff0000);
         var c = 0;
         var that = this;
-
+        r.controls.focus(ship.model);
 
         var accelerate: bool = false
         var turnLeft: bool = false
@@ -76,6 +76,7 @@ class Player {
                 var yChange = speed*delta*-0.001*Math.cos(rot);
                 var xChange = speed*delta*-0.001*Math.sin(rot);
                 ship.move(xChange,yChange);
+//                space.updateGrid(xChange,yChange);
             }
             if(speed || turnLeft || turnRight) {
                 r.controls.focus(ship.model);
