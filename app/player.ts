@@ -70,11 +70,11 @@ class Player {
                     speed = 0;
                 }
             }
-
             if(speed > 0) {
-                var rot = rotation * Math.PI / 180;
+                var rot = rotation;
                 var yChange = speed*delta*-0.001*Math.cos(rot);
                 var xChange = speed*delta*-0.001*Math.sin(rot);
+                console.log(xChange,yChange);
                 ship.move(xChange,yChange);
 //                space.updateGrid(xChange,yChange);
             }
