@@ -66,16 +66,15 @@ THREE.EditorControls = function ( object, domElement ) {
 	};
 
 	this.zoom = function ( distance ) {
+        var length = vector.copy( center ).sub( object.position ).length();
+        if((length < 10000 && distance.z > 0) || (length > 200 && distance.z < 0)) {
+            normalMatrix.getNormalMatrix( object.matrix );
+            distance.applyMatrix3( normalMatrix );
+            distance.multiplyScalar( length * 0.001 );
+            object.position.add( distance );
 
-		normalMatrix.getNormalMatrix( object.matrix );
-
-		distance.applyMatrix3( normalMatrix );
-		distance.multiplyScalar( vector.copy( center ).sub( object.position ).length() * 0.001 );
-
-		object.position.add( distance );
-
-		scope.dispatchEvent( changeEvent );
-
+            scope.dispatchEvent( changeEvent );
+        }
 	};
 
 	this.rotate = function ( delta ) {
@@ -141,7 +140,6 @@ THREE.EditorControls = function ( object, domElement ) {
 			scope.rotate( new THREE.Vector3( - movementX * 0.005, - movementY * 0.005, 0 ) );
 
 		} else if ( state === STATE.ZOOM ) {
-
 			scope.zoom( new THREE.Vector3( 0, 0, movementY ) );
 
 		}
@@ -174,7 +172,6 @@ THREE.EditorControls = function ( object, domElement ) {
 			delta = event.detail * 10;
 
 		}
-
 		scope.zoom( new THREE.Vector3( 0, 0, delta ) );
 
 	}

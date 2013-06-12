@@ -15,7 +15,7 @@ class Renderer {
     constructor()
     {
         var renderer;
-        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 30000 );
         this.camera.position.y = 1000;
         this.camera.position.x = 1000;
         this.controls = new THREE.EditorControls( this.camera );

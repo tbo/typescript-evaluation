@@ -15,12 +15,9 @@ class Ship {
     }
 
     public move(x: number, z: number, y: number = 0) {
-        this.model.translateX(x);
-        this.model.translateY(y);
-        this.model.translateZ(z);
-//        this.model.position.x += x;
-//        this.model.position.y += y;
-//        this.model.position.z += z;
+        this.model.position.x += x;
+        this.model.position.y += y;
+        this.model.position.z += z;
     }
 
     public getPosition():THREE.Vector3 {

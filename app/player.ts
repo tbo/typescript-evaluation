@@ -74,9 +74,8 @@ class Player {
                 var rot = rotation;
                 var yChange = speed*delta*-0.001*Math.cos(rot);
                 var xChange = speed*delta*-0.001*Math.sin(rot);
-                console.log(xChange,yChange);
                 ship.move(xChange,yChange);
-//                space.updateGrid(xChange,yChange);
+                space.updateGrid(xChange,yChange);
             }
             if(speed || turnLeft || turnRight) {
                 r.controls.focus(ship.model);

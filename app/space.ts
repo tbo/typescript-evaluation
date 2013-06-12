@@ -7,20 +7,16 @@ class Space {
     private grid: THREE.Object3D;
     private edgeLength: number = 200;
     private distanceDelta:THREE.Vector2 = new THREE.Vector2();
-    private gridW:number = 200; // pixels
-    private gridH:number = 200; // pixels
+    private gridW:number = 1600; // pixels
+    private gridH:number = 1600; // pixels
     private gridNumW:number = 50; // how many wide (50*50 = 2500 pixels wide)
     private gridNumH:number = 50;
-    private cellW:number;
-    private cellH:number;
 
     constructor()
     {
         var a = this.edgeLength;
         var b = Math.sin((30*(Math.PI/180))) * a;
         var c = Math.sin((60*(Math.PI/180))) * a;
-        this.cellW = this.gridW/this.gridNumW;
-        this.cellH = this.gridH/this.gridNumH;
 //        var startX: number = -1000;
 //        var startY: number = -1000;
 //
@@ -106,18 +102,16 @@ class Space {
     public updateGrid(x:number, y:number) {
         this.distanceDelta.x += x;
         this.distanceDelta.y += y;
-//        console.log(x,y);
 
-//        if(Math.abs(this.distanceDelta.x) >= this.cellW ) {
-//            this.grid.translateX(-this.distanceDelta.x);
-//            this.distanceDelta.x = 0;
-//        }
-//        if(Math.abs(this.distanceDelta.y) >= this.cellH ) {
-//            this.grid.translateY(-this.distanceDelta.y);
-//            this.distanceDelta.y = 0;
-//        }
-        this.grid.translateX(x);
-        this.grid.translateY(y);
+        if(Math.abs(this.distanceDelta.x) >= this.gridW ) {
+            this.grid.position.x += this.distanceDelta.x;
+            this.distanceDelta.x = 0;
+        }
+        if(Math.abs(this.distanceDelta.y) >= this.gridH ) {
+            this.grid.position.z += this.distanceDelta.y;
+            console.log(this.grid.position.z,this.distanceDelta.y);
+            this.distanceDelta.y = 0;
+        }
     }
 
     public move(x: number, y: number, z: number = 0) {
