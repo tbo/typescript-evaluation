@@ -67,7 +67,7 @@ THREE.EditorControls = function ( object, domElement ) {
 
 	this.zoom = function ( distance ) {
         var length = vector.copy( center ).sub( object.position ).length();
-        if((length < 10000 && distance.z > 0) || (length > 200 && distance.z < 0)) {
+        if((length < 20000 && distance.z > 0) || (length > 200 && distance.z < 0)) {
             normalMatrix.getNormalMatrix( object.matrix );
             distance.applyMatrix3( normalMatrix );
             distance.multiplyScalar( length * 0.001 );

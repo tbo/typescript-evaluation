@@ -15,11 +15,22 @@ class Renderer {
     constructor()
     {
         var renderer;
-        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 30000 );
+        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 80000 );
         this.camera.position.y = 1000;
         this.camera.position.x = 1000;
         this.controls = new THREE.EditorControls( this.camera );
         this.scene = new THREE.Scene();
+        this.scene.fog = new THREE.Fog( 0x000000, 3000, 55000 );
+        var pointLight =
+            new THREE.PointLight(0xFFFFFF);
+
+// set its position
+        pointLight.position.x = 10;
+        pointLight.position.y = 50;
+        pointLight.position.z = 130;
+
+// add to the scene
+        this.scene.add(pointLight);
         this.space = Space.getInstance();
         this.space.setScene(this.scene);
         renderer = new THREE.WebGLRenderer({antialias:true});
@@ -70,8 +81,25 @@ class Renderer {
             [6,-64],
             [3,-67]
         ]), material);
-        this.scene.add(mesh);
-        return new Ship(mesh);
+
+        var x = 0, y = 0;
+
+        var heartShape:THREE.Shape = new THREE.Shape(); // From http://blog.burlock.org/html5/130-paths
+
+        heartShape.moveTo( x + 25, y + 25 );
+        heartShape.bezierCurveTo( x + 25, y + 25, x + 20, y, x, y );
+        heartShape.bezierCurveTo( x - 30, y, x - 30, y + 35,x - 30,y + 35 );
+        heartShape.bezierCurveTo( x - 30, y + 55, x - 10, y + 77, x + 25, y + 95 );
+        heartShape.bezierCurveTo( x + 60, y + 77, x + 80, y + 55, x + 80, y + 35 );
+        heartShape.bezierCurveTo( x + 80, y + 35, x + 80, y, x + 50, y );
+        heartShape.bezierCurveTo( x + 35, y, x + 25, y + 25, x + 25, y + 25 );
+        var geom:THREE.Geometry = new THREE.ShapeGeometry( heartShape );
+        var objectHolder = new THREE.Object3D();
+        var object = new THREE.Mesh(geom, new THREE.MeshPhongMaterial( { color: 0xcc0000,opacity:0.5,transparent:true } ));
+//        object.rotation.x = -Math.PI/2;
+        objectHolder.add(object);
+        this.scene.add(objectHolder);
+        return new Ship(objectHolder);
     }
 
     public registerTickListener(callback: any) {

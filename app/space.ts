@@ -9,8 +9,8 @@ class Space {
     private distanceDelta:THREE.Vector2 = new THREE.Vector2();
     private gridW:number = 1600; // pixels
     private gridH:number = 1600; // pixels
-    private gridNumW:number = 50; // how many wide (50*50 = 2500 pixels wide)
-    private gridNumH:number = 50;
+    private gridNumW:number = 60; // how many wide (50*50 = 2500 pixels wide)
+    private gridNumH:number = 60;
 
     constructor()
     {

@@ -3,11 +3,13 @@
     <properties>
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/app/renderer.js" />
+        <item url="file://$PROJECT_DIR$/app/space.js" />
         <item url="file://$PROJECT_DIR$/app/player.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/app/renderer.js" />
+      <root url="file://$PROJECT_DIR$/app/space.js" />
       <root url="file://$PROJECT_DIR$/app/player.js" />
     </CLASSES>
     <SOURCES />
